@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TarefaProps } from '../../types/tarefa';
 import {Botao} from '../Botao';
 import style from './Formulario.module.scss';
+import { v4 as uuidv4} from 'uuid';
 
 interface FomularioProps{
      setTarefas:React.Dispatch<React.SetStateAction<TarefaProps[]>>;
@@ -11,11 +12,21 @@ export function Formulario({setTarefas} : FomularioProps){
      const [tarefa, setTarefa] = useState('');
      const [tempo, setTempo] = useState('00:00');
      
-     function adicionarTarefa(evento: React.FormEvent<HTMLFormElement>){
+     const adicionarTarefa = (evento: React.FormEvent<HTMLFormElement>) =>{
           evento.preventDefault();
-          setTarefas(tarefasAntigas => [...tarefasAntigas,{...{tarefa,tempo}}]);
+          setTarefas(tarefasAntigas => 
+               [...tarefasAntigas,
+                    {
+                         ...{tarefa,tempo},
+                         selecionado:false,
+                         completado:false,
+                         id:uuidv4()
+                    }
+               ]
+          );
+          setTarefa('');
+          setTempo('00:00');  
      }
-     
     return (
         <form className={style.novaTarefa} onSubmit={adicionarTarefa}>
         <div className={style.inputContainer}>
