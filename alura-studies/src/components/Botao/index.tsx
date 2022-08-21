@@ -1,9 +1,17 @@
 import React from 'react';
+import style from'./Botao.module.scss';
 
-export function Botao(){
+interface BotaoProps {
+    children: React.ReactNode;
+    type? :'submit'|'button';
+}
+export function Botao({children, type="button"} : BotaoProps){
     return(
-        <button type="button" className="btn btn-primary">
-            Botão
+        <button 
+          type={type}
+          className={style.botao}
+        >
+            {children}
         </button>
     );
 }

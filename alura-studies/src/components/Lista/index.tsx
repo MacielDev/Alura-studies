@@ -1,26 +1,20 @@
-import React from 'react';
+import { TarefaProps } from '../../types/tarefa';
+import { Item } from './Item';
+import style from  './Lista.module.scss';
 
-export function Lista (){  
+
+export function Lista ({ tarefas } :{ tarefas:Array<TarefaProps> }){ 
+  
     return(
-       <aside>
+       <aside className={style.listaTarefas}>
         <h2>Estudos do dia</h2>
         <ul>
-            <li>
-                <h3>
-                    React
-                </h3>
-                <span>
-                    02:00:00
-                </span>
-            </li>
-            <li>
-                <h3>
-                    javaScript
-                </h3>
-                <span>
-                    01:00:00
-                </span>
-            </li>
+            {tarefas.map((item, index) => (
+                <Item 
+                  key={index}
+                  {...item}
+                />
+            ))}
         </ul>
        </aside> 
     );
