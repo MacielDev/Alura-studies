@@ -7,7 +7,7 @@ import style from './App.module.scss';
 
 export function App() {
   const [tarefas, setTarefas] = useState<TarefaProps[]>([]);
-  const [selecionado, setSelecionado] = useState<TarefaProps>();
+  const [selecionado, setSelecionado] = useState<TarefaProps | undefined>();
 
   function selecionaTarefa(tarefaSelecionada : TarefaProps){
       setSelecionado(tarefaSelecionada);
@@ -15,6 +15,21 @@ export function App() {
         ...tarefa,
         selecionado: tarefa.id === tarefaSelecionada.id? true : false
       })))
+  }
+  function finalizaTarefa(){
+    if(selecionado) {
+      setTarefas(tarefasAnteriores =>
+      tarefasAnteriores.map(tarefa => {
+          if(tarefa.id === selecionado.id) {
+              return {
+                  ...tarefa,
+                  selecionado: false,
+                  completado: true
+              }
+          }
+          return tarefa;
+      }))
+  }
   }
 
   return (
@@ -24,7 +39,7 @@ export function App() {
         tarefas={tarefas}
         selecionaTarefa={selecionaTarefa} 
       />
-      <Cronometro/>
+      <Cronometro selecionado={selecionado} finalizaTarefa={finalizaTarefa}/>
     </div>
   );
 }
